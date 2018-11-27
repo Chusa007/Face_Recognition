@@ -1,25 +1,24 @@
 import cv2
 import face_recognition
-import time
 
 video_capture = cv2.VideoCapture(0)
 video_capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
 video_capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
 # video_capture.set(cv2.CAP_PROP_FPS, 60)
 
-ryz_image = face_recognition.load_image_file("ryz.png")
+ryz_image = face_recognition.load_image_file("DataSet/ryz.png")
 ryz_face_encoding = face_recognition.face_encodings(ryz_image)[0]
 
-egg_image = face_recognition.load_image_file("egg.png")
+egg_image = face_recognition.load_image_file("DataSet/egg.png")
 egg_face_encoding = face_recognition.face_encodings(egg_image)[0]
 
-misha_image = face_recognition.load_image_file("misha.png")
+misha_image = face_recognition.load_image_file("DataSet/misha.png")
 misha_face_encoding = face_recognition.face_encodings(misha_image)[0]
 
-aleks_image = face_recognition.load_image_file("barg.png")
+aleks_image = face_recognition.load_image_file("DataSet/barg.png")
 aleks_face_encoding = face_recognition.face_encodings(aleks_image)[0]
 
-nat_image = face_recognition.load_image_file("nat.png")
+nat_image = face_recognition.load_image_file("DataSet/nat.png")
 nat_face_encoding = face_recognition.face_encodings(nat_image)[0]
 
 
