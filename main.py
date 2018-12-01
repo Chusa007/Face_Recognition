@@ -34,7 +34,9 @@ def StartWebServer(qI, port=5000):
 
     @app.route("/")
     def index():
-        return render_template('index.html')
+        with open('templates/index.html', 'r') as index:
+            ans = index.read()
+            return ans
 
     app.run("", port)
 
