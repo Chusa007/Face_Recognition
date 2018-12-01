@@ -1,0 +1,95 @@
+body {
+	margin: 0;
+	font-family: 'Segoe UI';
+	background: #f7f7f7;
+	font-size: 18px;
+}
+#top {
+	height: 70px;
+    background-color: #2c3e50;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    position: fixed;
+    z-index: 1;
+}
+.logo {
+	    font-weight: 100;
+    font-family: 'Arial Narrow';
+    color: white;
+    font-size: 20px;
+    line-height: 30px;
+    margin-top: 9px;
+    letter-spacing: 4px;
+}
+#logger {
+	    width: 60vw;
+    margin: 0 20vw;
+    background: white;
+    top: 70px;
+    position: relative;
+    padding: 30px;
+}
+#logger .item {
+	display: flex;
+    padding: 10px;
+    border-bottom: 1px solid #f7f7f7;
+}
+#logger .item img{
+    margin: 6px;
+    width: auto;
+    height: 48px;
+}
+.main-info {
+	    display: flex;
+}
+.main-info, .employ {
+	    width: 36%;
+	    text-align: center;
+}
+.logo-img {
+	    width: 100px;
+    margin-left: 24px;
+}
+.camera {
+    width: 32%;
+    text-align: center;
+}
+.time {
+	text-align: center;
+}
+#logger .name {
+	display: inline-block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+#logger .item .description {
+	display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+#logger {
+
+}
+.item div {
+	margin: auto 0;
+}
+.time {
+	width: 32%;
+}
+.headers {
+    display: flex;
+    margin-bottom: 12px;
+    padding: 0 10px;
+}
+.headers > span {
+	color: #8a8888;
+	font-size: 18px;
+}
+.saby {
+	font-weight: bold;
+	margin-left: 26px;
+}
+.big-brot {
+	margin-left: 6px;
+}
