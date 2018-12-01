@@ -35,10 +35,14 @@ body {
     padding: 10px;
     border-bottom: 1px solid #f7f7f7;
 }
+.item.isUnknown {
+    background: rgba(255,0,0,0.2);
+}
 #logger .item img{
-    margin: 6px;
+    margin: 0 6px;
     width: auto;
-    height: 48px;
+    border-radius: 8px;
+    height: 60px;
 }
 .main-info {
 	    display: flex;
