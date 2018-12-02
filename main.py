@@ -9,9 +9,13 @@ import signal
 import face_recognition
 import json
 import base64
-from flask import Flask, Response, render_template
+from flask import Flask, Response
 
-COUNT_FRAME_WITH_DATA = 10
+COUNT_FRAME_WITH_DATA = 50
+FRAME_HEIGHT = 720
+FRAME_WIDTH = 1280
+FRAME_FPS = 30
+COUNT_ARDUINO = 4
 
 
 def StartWebServer(qI, port=5000):
@@ -42,9 +46,8 @@ def StartWebServer(qI, port=5000):
     app.run("", port)
 
 def ConnectArduino(name):
-    ser = serial.Serial('/dev/ttyACM3')
+    ser = serial.Serial('/dev/ttyACM0')
     ser.baudrate = 9600
-    # ser = serial.Serial('COM3', 9600)
     time.sleep(2)
     print(name)
     ser.write(str.encode(name + '#'))
@@ -98,9 +101,12 @@ def FullRecognizedFace(qI, qO):
             if True in matches:
                 first_match_index = matches.index(True)
                 name_p = known_face_names[first_match_index]
-            # if i % 5 == 0:
-            #     print('check')
-            #     ConnectArduino(name)
+            if (  (name_p == 'Unknown') ):
+                 print('check')
+                 prc2 = multiprocessing.Process(target=ConnectArduino,
+                                                args=(name_p,))
+                 prc2.start()
+
 
             new_person = dict()
             new_person['name'] = name_p
@@ -112,15 +118,14 @@ def FullRecognizedFace(qI, qO):
             new_person['photo'] = img_data
             new_person['time'] = str(datetime.datetime.now())
             new_person['cam'] = window_name
+            new_person['isUnknown'] = 'item isUnknown' if name_p == 'Unknown' else 'item'
 
             new_person_j = json.dumps(new_person)
 
             qO.put(new_person_j)
         i += 1
 
-
-
-
+ConnectArduino("Unknown")
 queueImg = multiprocessing.Queue()
 
 queueToSend = multiprocessing.Queue()
@@ -131,13 +136,21 @@ recognizer = cv2.face.FisherFaceRecognizer_create()
 
 detector = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 font = cv2.FONT_HERSHEY_SIMPLEX
-cap = cv2.VideoCapture(0)
-cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
-cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
-cap.set(cv2.CAP_PROP_FPS, 60)
+cap = cv2.VideoCapture(1)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, FRAME_HEIGHT)
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, FRAME_WIDTH)
+cap.set(cv2.CAP_PROP_FPS, FRAME_FPS)
 prc = multiprocessing.Process(target=CheckFace, args=(cap, queueImg, 'Camera 1', COUNT_FRAME_WITH_DATA,))
 prc.start()
 print(prc.pid)
+
+cap1 = cv2.VideoCapture(0)
+cap1.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+cap1.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+cap1.set(cv2.CAP_PROP_FPS, FRAME_FPS)
+prc1 = multiprocessing.Process(target=CheckFace, args=(cap1, queueImg, 'Camera 2', COUNT_FRAME_WITH_DATA,))
+prc1.start()
+print(prc1.pid)
 
 prc2 = multiprocessing.Process(target=StartWebServer, args=(queueToSend, ))
 prc2.start()
