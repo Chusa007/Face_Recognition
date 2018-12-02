@@ -17,7 +17,7 @@
 			<span class="camera">Camera</span>
 			<span class="time">Time</span>
 		</div>
-		<div v-for="item in items" v-bind:class="classError">
+		<div v-for="item in items" v-bind:class="item.isUnknown">
 			<div class="main-info">
 				<img v-bind:src="item.photo" class="photo">
 				<div class="name">{{ item.name }}</div>
@@ -28,20 +28,11 @@
 	</div>
 
 	<script>
-		// получить список с бл, установить в data
 		var logger = new Vue({
 		  el: '#logger',
 		  data: {
 		    items: []  
-		  },
-		  computed: {
-			  classError: function () {
-				return {
-				  item: true,
-				  isUnknown: this.items[0].name === 'Unknown'
-				}
-			  }
-			}
+		  }
 		});
 
         var eventSource = new EventSource("http://localhost:5000/stream");
